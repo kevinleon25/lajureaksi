@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Laju Reaksi - Alexander Kevin Leonidas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            border-bottom: 5px solid #45a049;
+            font-weight: bold;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            background-color: #45a049;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+        .menu button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .menu button:hover {
+            background-color: #388e3c;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            text-align: center;
+        }
+        .card.active {
+            display: block;
+        }
+        h1, h2, h3 {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        h1 {
+            font-size: 28px;
+        }
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        h3 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+        p {
+            text-align: justify;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        .icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .gambar {
+            width: 100%;
+            max-width: 100%;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .answer {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+            text-align: left;
+            max-width: 600px;
+            margin: 10px auto;
+        }
+        .button {
+            background-color: #388e3c;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #2c6b32;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header {
+                font-size: 20px;
+                padding: 15px;
+            }
+            .menu button {
+                font-size: 14px;
+                padding: 10px 15px;
+                flex-basis: 48%;
+            }
+            .card {
+                padding: 15px;
+            }
+            .gambar {
+                max-width: 100%;
+                height: auto;
+            }
+            footer {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                font-size: 18px;
+                padding: 12px;
+            }
+            .menu button {
+                font-size: 12px;
+                padding: 8px 12px;
+                flex-basis: 100%;
+            }
+            .card {
+                padding: 10px;
+            }
+            .gambar {
+                max-width: 100%;
+            }
+            footer {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
+        #splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg,#b8feba, #55d45e, #2baa32, #0b730f);
+
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1000; /* Pastikan di atas semua elemen */
+    font-family: 'Arial', sans-serif;
+}
+
+#splash-screen h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color:#ffffff;
+    animation: fadeIn 1s ease-out;
+}
+
+#splash-screen p {
+    font-size: 24px;
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease-out;
+}
+
+#enter-button {
+    background-color: white;
+    color: #4CAF50;
+    border: none;
+    padding: 12px 24px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#enter-button:hover {
+    background-color: #45a049;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Animasi untuk teks dan tombol */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+    </style>
+</head>
+<body>
+    <div id="splash-screen">
+        <h1>Halo!</h1>
+        <p>Ingin Tahu Tentang Laju Reaksi?</p>
+        <button id="enter-button">Klik Disini</button>
+    </div>
+    <header>
+        LAJU REAKSI
+    </header>
+
+    <div class="menu">
+        <button onclick="showSection('pengertian')"><img src="https://img.icons8.com/ios/50/000000/book.png" class="icon" alt="Pengertian"> Pengertian</button>
+        <button onclick="showSection('faktor')"><img src="https://img.icons8.com/ios/50/000000/information.png" class="icon" alt="Faktor"> Faktor</button>
+        <button onclick="showSection('rumus')"><img src="https://img.icons8.com/ios/50/000000/calculator.png" class="icon" alt="Rumus"> Rumus</button>
+        <button onclick="showSection('contoh')"><img src="https://img.icons8.com/ios/50/000000/math.png" class="icon" alt="Contoh Soal"> Contoh Soal</button>
+    </div>
+
+    <div class="container">
+        <!-- Section Pengertian -->
+        <div id="pengertian" class="card active">
+            <h1>Pengertian Laju Reaksi</h1>
+            <img src="./img/laju.jpg" class="gambar" alt="Laju Reaksi">
+            <p>Laju reaksi adalah perubahan konsentrasi reaktan atau produk per satuan waktu. Laju reaksi menunjukkan seberapa cepat suatu reaksi kimia berlangsung. Laju reaksi dapat dipengaruhi oleh berbagai faktor, seperti suhu, konsentrasi, luas permukaan reaktan, dan keberadaan katalis. Pemahaman tentang laju reaksi sangat penting dalam berbagai aplikasi kimia, seperti dalam industri kimia dan proses bioteknologi.</p>
+        </div>
+
+        <!-- Section Faktor-Faktor -->
+        <div id="faktor" class="card">
+            <h1>Faktor-Faktor yang Mempengaruhi Laju Reaksi</h1>
+            <img src="./img/faktor.jpeg" class="gambar" alt="Faktor Laju Reaksi">
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li><strong>Konsentrasi:</strong> Semakin tinggi konsentrasi reaktan, semakin cepat laju reaksi.</li>
+                <li><strong>Suhu:</strong> Kenaikan suhu umumnya meningkatkan laju reaksi.</li>
+                <li><strong>Luas Permukaan:</strong> Semakin besar luas permukaan, semakin cepat laju reaksi.</li>
+                <li><strong>Katalis:</strong> Katalis dapat meningkatkan laju reaksi tanpa ikut bereaksi.</li>
+            </ul>
+        </div>
+
+        <!-- Section Rumus -->
+        <div id="rumus" class="card">
+            <h1>Rumus Laju Reaksi</h1>
+            <p>Rumus umum laju reaksi adalah:</p>
+            <p style="text-align: center; font-size: 20px;"><strong>v = k [A]<sup>m</sup>[B]<sup>n</sup></strong></p>
+            <p>Dimana:</p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li><strong>v</strong> = Laju reaksi</li>
+                <li><strong>k</strong> = Konstanta laju reaksi</li>
+                <li><strong>[A], [B]</strong> = Konsentrasi reaktan</li>
+                <li><strong>m, n</strong> = Orde reaksi</li>
+            </ul>
+        </div>
+
+        <!-- Section Contoh Soal -->
+<div id="contoh" class="card">
+    <h1>Contoh Soal Laju Reaksi</h1>
+
+    <!-- Soal 1 -->
+    <h2>Soal 1:</h2>
+    <p>Perhatikan reaksi berikut: A + B → C. Jika konsentrasi A dinaikkan dua kali lipat, bagaimana pengaruhnya terhadap laju reaksi? Gunakan rumus laju reaksi: v = k[A]<sup>m</sup>[B]<sup>n</sup> jika diketahui bahwa reaksi ini berorde satu terhadap A dan dua terhadap B (m = 1, n = 2).</p>
+    <button class="button" onclick="toggleAnswer('jawaban1')">Tampilkan Jawaban</button>
+    <div id="jawaban1" class="hidden answer">
+        <p>Dengan menggunakan rumus v = k[A]<sup>1</sup>[B]<sup>2</sup>, jika konsentrasi A dinaikkan dua kali lipat, laju reaksi akan berubah sebesar (2)<sup>1</sup> = 2. Oleh karena itu, laju reaksi akan meningkat dua kali lipat jika hanya konsentrasi A yang diubah. Sedangkan konsentrasi B tetap.</p>
+    </div>
+
+    <!-- Soal 2 -->
+    <h2>Soal 2:</h2>
+    <p>Reaksi: 2A + B → C. Jika konsentrasi A dinaikkan dua kali lipat dan konsentrasi B juga dinaikkan dua kali lipat, bagaimana pengaruhnya terhadap laju reaksi? Gunakan rumus v = k[A]<sup>m</sup>[B]<sup>n</sup>, dengan m = 2 dan n = 1.</p>
+    <button class="button" onclick="toggleAnswer('jawaban2')">Tampilkan Jawaban</button>
+    <div id="jawaban2" class="hidden answer">
+        <p>Dengan menggunakan rumus v = k[A]<sup>2</sup>[B]<sup>1</sup>, jika konsentrasi A dan B masing-masing dinaikkan dua kali lipat, laju reaksi akan berubah sebesar (2)<sup>2</sup> * (2)<sup>1</sup> = 8. Oleh karena itu, laju reaksi akan meningkat 8 kali lipat.</p>
+    </div>
+
+    <!-- Soal 3 -->
+    <h2>Soal 3:</h2>
+    <p>Perhatikan reaksi: A → B. Jika konsentrasi A dinaikkan dua kali lipat dan reaksi ini berorde dua terhadap A, bagaimana pengaruhnya terhadap laju reaksi? Gunakan rumus v = k[A]<sup>m</sup> dengan m = 2.</p>
+    <button class="button" onclick="toggleAnswer('jawaban3')">Tampilkan Jawaban</button>
+    <div id="jawaban3" class="hidden answer">
+        <p>Dengan menggunakan rumus v = k[A]<sup>2</sup>, jika konsentrasi A dinaikkan dua kali lipat, laju reaksi akan berubah sebesar (2)<sup>2</sup> = 4. Oleh karena itu, laju reaksi akan meningkat 4 kali lipat.</p>
+    </div>
+
+    <!-- Soal 4 -->
+    <h2>Soal 4:</h2>
+    <p>Jika pada reaksi 3A + 2B → C, konsentrasi A dinaikkan dua kali lipat dan konsentrasi B tetap, bagaimana laju reaksi akan berubah? Gunakan rumus laju reaksi: v = k[A]<sup>m</sup>[B]<sup>n</sup>, dengan m = 1 dan n = 1.</p>
+    <button class="button" onclick="toggleAnswer('jawaban4')">Tampilkan Jawaban</button>
+    <div id="jawaban4" class="hidden answer">
+        <p>Dengan menggunakan rumus v = k[A]<sup>1</sup>[B]<sup>1</sup>, jika konsentrasi A dinaikkan dua kali lipat dan konsentrasi B tetap, laju reaksi akan berubah sebesar (2)<sup>1</sup> * (1) = 2. Oleh karena itu, laju reaksi akan meningkat dua kali lipat.</p>
+    </div>
+
+    <!-- Soal 5 -->
+    <h2>Soal 5:</h2>
+    <p>Untuk reaksi 2A + B → C, bagaimana pengaruh peningkatan konsentrasi A dan B terhadap laju reaksi jika diketahui bahwa laju reaksi berorde dua terhadap A dan satu terhadap B? Gunakan rumus laju reaksi: v = k[A]<sup>2</sup>[B]<sup>1</sup></p>
+    <button class="button" onclick="toggleAnswer('jawaban5')">Tampilkan Jawaban</button>
+    <div id="jawaban5" class="hidden answer">
+        <p>Dengan menggunakan rumus v = k[A]<sup>2</sup>[B]<sup>1</sup>, jika konsentrasi A dinaikkan dua kali lipat, laju reaksi akan berubah sebesar (2)<sup>2</sup> = 4, dan jika konsentrasi B dinaikkan dua kali lipat, laju reaksi akan berubah sebesar (2)<sup>1</sup> = 2. Oleh karena itu, laju reaksi secara keseluruhan akan meningkat 8 kali lipat.</p>
+    </div>
+</div>
+
+
+    </div>
+
+    <footer>
+        LAJU REAKSI - Alexander Kevin Leonidas
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.card');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const activeSection = document.getElementById(sectionId);
+            activeSection.classList.add('active');
+        }
+
+        function toggleAnswer(answerId) {
+            const answer = document.getElementById(answerId);
+            answer.classList.toggle('hidden');
+        }
+        document.getElementById('enter-button').addEventListener('click', () => {
+    document.getElementById('splash-screen').style.display = 'none';
+});
+
+    </script>
+
+</body>
+</html>
